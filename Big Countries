@@ -1,0 +1,16 @@
+import pandas as pd
+
+data = {
+    "name": ["China", "India", "USA", "Indonesia", "Iceland"],
+    "continent": ["Asia", "Asia", "America", "Asia", "Europe"],
+    "area": [9596961, 3287263, 9372610, 1904569, 103000],
+    "population": [1400000000, 1339180127, 324459463, 263991379, 335000],
+    "gdp": [12237700000, 2611000000, 19485394000, 1015400000, 238230000]
+}
+World = pd.DataFrame(data)
+
+big_countries = World[(World["area"] >= 3000000) | (World["population"] >= 25000000)]
+
+result = big_countries[["name", "population", "area"]]
+
+print(result)
