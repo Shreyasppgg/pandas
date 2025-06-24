@@ -1,0 +1,15 @@
+import pandas as pd
+import re
+
+data = {
+    "user_id": [1, 2, 3, 4],
+    "name": ["John", "Jane", "Bob", "Mike"],
+    "mail": ["john@leetcode.com", "2jane@leetcode.com", "bob.smith@leetcode.com", "mike@gmail.com"]
+}
+Users = pd.DataFrame(data)
+
+pattern = r"^[a-zA-Z][a-zA-Z0-9_.-]*@leetcode\.com$"
+
+valid_users = Users[Users["mail"].str.match(pattern)]
+
+print(valid_users)
