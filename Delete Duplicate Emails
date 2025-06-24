@@ -1,0 +1,12 @@
+import pandas as pd
+
+Person = pd.DataFrame({
+    "id": [1, 2, 3],
+    "email": ["a@leetcode.com", "b@leetcode.com", "a@leetcode.com"]
+})
+
+Person.sort_values("id", inplace=True)
+
+Person.drop_duplicates(subset="email", keep="first", inplace=True)
+
+print(Person)
