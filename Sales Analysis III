@@ -1,0 +1,35 @@
+import pandas as pd
+
+product_data = {
+    "product_id": [1, 2, 3],
+    "product_name": ["Keyboard", "Mouse", "Monitor"],
+    "unit_price": [120, 80, 400]
+}
+Product = pd.DataFrame(product_data)
+
+sales_data = {
+    "seller_id": [1, 2, 3],
+    "product_id": [1, 2, 1],
+    "buyer_id": [1, 2, 3],
+    "sale_date": ["2019-01-05", "2019-02-10", "2019-04-01"],
+    "quantity": [2, 1, 1],
+    "price": [240, 80, 120]
+}
+Sales = pd.DataFrame(sales_data)
+Sales["sale_date"] = pd.to_datetime(Sales["sale_date"])
+
+q1_start = pd.to_datetime("2019-01-01")
+q1_end = pd.to_datetime("2019-03-31")
+
+q1_sales = Sales[(Sales["sale_date"] >= q1_start) & (Sales["sale_date"] <= q1_end)]
+
+q1_products = set(q1_sales["product_id"])
+
+non_q1_sales = Sales[(Sales["sale_date"] < q1_start) | (Sales["sale_date"] > q1_end)]
+non_q1_products = set(non_q1_sales["product_id"])
+
+only_q1_products = q1_products - non_q1_products
+
+result = Product[Product["product_id"].isin(only_q1_products)][["product_id", "product_name"]]
+
+print(result)
