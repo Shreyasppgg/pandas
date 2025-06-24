@@ -1,0 +1,25 @@
+import pandas as pd
+
+data = {
+    "player_id": [1, 1, 2, 2, 3],
+    "device_id": [2, 2, 3, 3, 1],
+    "event_date": ["2016-03-01", "2016-03-02", "2016-03-01", "2016-03-03", "2016-03-03"],
+    "games_played": [5, 6, 1, 0, 5]
+}
+df = pd.DataFrame(data)
+
+df["event_date"] = pd.to_datetime(df["event_date"])
+
+first_login = df.groupby("player_id")["event_date"].min().reset_index()
+first_login.columns = ["player_id", "first_login"]
+
+merged = df.merge(first_login, on="player_id")
+
+merged["is_next_day_login"] = merged["event_date"] == (merged["first_login"] + pd.Timedelta(days=1))
+
+next_day_login = merged.groupby("player_id")["is_next_day_login"].any().reset_index()
+
+fraction = next_day_login["is_next_day_login"].mean().round(2)
+
+result = pd.DataFrame({"fraction": [fraction]})
+print(result)
