@@ -1,0 +1,26 @@
+import pandas as pd
+
+project_data = {
+    "project_id": [1, 1, 2, 2],
+    "employee_id": [1, 2, 1, 3]
+}
+Project = pd.DataFrame(project_data)
+
+employee_data = {
+    "employee_id": [1, 2, 3],
+    "name": ["A", "B", "C"],
+    "experience_years": [2, 3, 5]
+}
+Employee = pd.DataFrame(employee_data)
+
+merged = Project.merge(Employee, on="employee_id")
+
+result = (
+    merged.groupby("project_id")["experience_years"]
+    .mean()
+    .round(2)
+    .reset_index()
+    .rename(columns={"experience_years": "average_years"})
+)
+
+print(result)
