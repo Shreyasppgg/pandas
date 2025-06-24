@@ -1,0 +1,22 @@
+import pandas as pd
+
+sales_data = {
+    "sale_id": [1, 2, 7],
+    "product_id": [100, 100, 200],
+    "year": [2008, 2009, 2011],
+    "quantity": [10, 12, 15],
+    "price": [500, 500, 900]
+}
+Sales = pd.DataFrame(sales_data)
+
+product_data = {
+    "product_id": [100, 200, 300],
+    "product_name": ["Nokia", "Apple", "Samsung"]
+}
+Product = pd.DataFrame(product_data)
+
+merged = pd.merge(Sales, Product, on="product_id")
+
+result = merged[["product_name", "year", "price"]]
+
+print(result)
