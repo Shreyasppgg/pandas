@@ -1,0 +1,23 @@
+import pandas as pd
+
+data = {
+    "pid": [1, 2, 3, 4],
+    "tiv_2015": [10, 20, 10, 40],
+    "tiv_2016": [5, 20, 30, 40],
+    "lat": [10.0, 20.0, 30.0, 20.0],
+    "lon": [10.0, 20.0, 30.0, 20.0]
+}
+Insurance = pd.DataFrame(data)
+
+duplicate_tiv_2015 = Insurance["tiv_2015"].duplicated(keep=False)
+tiv_2015_valid = Insurance[duplicate_tiv_2015]
+
+unique_location = ~Insurance.duplicated(subset=["lat", "lon"], keep=False)
+location_valid = Insurance[unique_location]
+
+valid = pd.merge(tiv_2015_valid, location_valid, how="inner")
+
+total_investment = round(valid["tiv_2016"].sum(), 2)
+
+result = pd.DataFrame({"tiv_2016": [total_investment]})
+print(result)
